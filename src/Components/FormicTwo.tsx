@@ -1,8 +1,16 @@
 import { FC, Fragment, HTMLAttributes, InputHTMLAttributes } from "react";
-import { useField, Form, FormikProps, Formik } from "formik";
-
+import { useField, Form, FormikProps, Formik, FormikHelpers } from "formik";
+import type { ObjectSchema } from "yup";
 import { SubmitHandler, InitialNameValue, YupSchema } from "./FormicOne";
-interface FormicTwo extends HTMLAttributes<HTMLDivElement> {}
+type InitialValue = Record<string, string>;
+interface ISubmitHandler {
+  (value: InitialValue, action: FormikHelpers<InitialValue>): void;
+}
+interface FormicTwo extends HTMLAttributes<HTMLDivElement> {
+  InitialNameValue: InitialValue;
+  initialSchemas: ObjectSchema<InitialValue>;
+  submitHandler: ISubmitHandler;
+}
 const FormicTwo: FC<FormicTwo> = ({}) => {
   return (
     <div>
@@ -49,12 +57,13 @@ interface Values {
 interface MyTextField extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
-const MyTextField: FC<MyTextField> = ({ label, ...props }) => {
+export const MyTextField: FC<MyTextField> = ({ label, ...props }) => {
   /**
    * the parameter pass on teh 'useField' is identifier  of every instance of input filed also need have same name with the YUP validation and initila value,
    * this hooks use to get another necesery propery from query data from input to formic context
    */
   const [field, meta] = useField(label);
+  // console.log(field);
   return (
     <Fragment>
       <label className="flex flex-col text-left  gap-1 my-3">
