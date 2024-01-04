@@ -1,21 +1,26 @@
+import { FC, InputHTMLAttributes } from "react";
 import { useField } from "formik";
-import { FC, Fragment, InputHTMLAttributes } from "react";
-
-interface Input extends InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
-export const Input: FC<Input> = ({ label, ...props }) => {
+type InputComponent = FC<InputProps>;
+export const Input: InputComponent = ({ label, ...resProps }) => {
   const [field, meta] = useField(label);
   return (
-    <Fragment>
-      <label className="flex flex-col text-left  gap-1 my-3">
-        {label}
-        <input className="border-b-2 outline-none" {...field} {...props} />
-        {meta.touched && meta.error ? (
-          <p className="text-red-400">{meta.error}</p>
-        ) : null}
-      </label>
-    </Fragment>
+    <label className="flex flex-col text-left  gap-1 my-3">
+      {label}
+      <input
+        {...resProps}
+        className={
+          "border-b-2 outline-none" +
+          ` ${resProps.className ? resProps.className : ""} `
+        }
+        {...field}
+      />
+      {meta.touched && meta.error ? (
+        <p className="text-red-400">{meta.error}</p>
+      ) : null}
+    </label>
   );
 };
 
