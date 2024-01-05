@@ -7,6 +7,8 @@ export default defineConfig({
   resolve: {
     alias: {
       "@common": fileURLToPath(new URL("./src/common", import.meta.url)),
+      "@pages": fileURLToPath(new URL("./src/pages", import.meta.url)),
+      "@libs": fileURLToPath(new URL("./src/libs", import.meta.url)),
     },
   },
 });
